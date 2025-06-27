@@ -1,6 +1,8 @@
 .category-bar {
+background-color: #131111;
   position: sticky;
   top: 0;
+
   z-index: 999;
   height: 50px;
   display: flex;

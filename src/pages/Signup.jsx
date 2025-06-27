@@ -44,7 +44,6 @@ const Signup = () => {
     <div className="signup-page">
       <div className="signup-box">
         <h2>Sign Up</h2>
-        <p>It's free and only takes a minute</p>
         <form onSubmit={handleSubmit}>
           <input
             type="text"

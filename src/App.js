@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar';//hi
 import CategoryBar from './components/CategoryBar';
 import ImageSlider from './components/ImageSlider';
 import ProductTab from './components/ProductTab';
