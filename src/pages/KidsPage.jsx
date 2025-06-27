@@ -1,0 +1,20 @@
+import React from 'react';
+import productData from '../data/Product';
+import ProductList from './ProductList';
+
+const KidsPage = ({ searchTerm, addToCart, cartItems, setCartItems, removeFromCart, userName }) => {
+  return (
+    <ProductList
+      productData={productData}
+      filterCategory="Kids"
+      searchTerm={searchTerm}
+      addToCart={addToCart}
+      cartItems={cartItems}
+      setCartItems={setCartItems}
+      removeFromCart={removeFromCart}
+      userName={userName}
+    />
+  );
+};
+
+export default KidsPage;

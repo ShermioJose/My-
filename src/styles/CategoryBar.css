@@ -1,0 +1,157 @@
+.category-bar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: rgb(24, 24, 24);
+  padding: 10px 20px;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+
+}
+.category-bar.stuck {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.category-center {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.category-menu {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.category-menu li {
+  cursor: pointer;
+  font-size: 19px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #131111;
+  padding-bottom: 4px;
+  position: relative;
+}
+.category-menu li:hover {
+  color: #3498db; 
+
+}
+.category-menu li:hover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #0e0f0c;
+}
+.category-link{
+    text-decoration: none;
+  color: #140f0f;
+}
+.category-link :hover{
+    color: #007BFF;
+}
+
+.category-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  margin-top: -20px;
+  padding: 6px 8px;
+  border: #0e0f0c;
+  border-radius: 2px 0 0 2px;
+  outline: none;
+}
+
+.search-btn {
+  background-color: #fbfdf8;
+  height: 28px;
+  color: white;
+  margin-top: -20px;
+  border: #0e0f0c;
+  padding: 6px 6px;
+  margin-left: -20px;
+  outline: none;
+  border-radius: 2px 0 0 2px;
+  cursor: pointer;
+}
+
+.login-button {
+  display: flex;
+  color: #252920;
+  background-color: #e8e6e6;
+  padding: 6px 15px;
+  border: none;
+    margin-top: -20px;
+  border-radius: 2px 0 0 2px;
+  outline: none;
+  cursor: pointer;
+}
+.login-button:hover{ 
+      background-color: #b56565;
+  color: white;
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+.cart-icon {
+    margin-top: -10px;
+  width: 38px;
+    margin-top: -20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.account-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.account-icon {
+  margin-top: -10px;
+  font-size: 18px;
+}
+.cart-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 15px;
+}
+
+.cart-icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-count-top {
+  background-color: red;
+  border-radius: 50px;
+  position: absolute;
+  top: -10px;
+  left: 50px;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: bold;
+  color: rgb(227, 222, 222); 
+}

@@ -1,0 +1,26 @@
+.delivery-location-page {
+  padding: 40px;
+  font-family: Arial, sans-serif;
+}
+.delivery-heading {
+    font-family: 'Times New Roman', Times, serif;
+      text-align: center;
+  font-size: 30px;
+  color: #2c2c2c;
+  margin-bottom: 30px;
+}
+
+.state-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.state-table td {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #333;
+  text-align: left;
+  border: 1px solid #ddd;
+}
