@@ -3,6 +3,7 @@ import '../styles/CookieConsent.css';
 
 const CookieConsent = () => {
   const [consent, setConsent] = useState(localStorage.getItem('cookie_consent'));
+  const [warningVisible, setWarningVisible] = useState(false);
 
   useEffect(() => {
     if (!consent) {
@@ -18,6 +19,8 @@ const CookieConsent = () => {
   const handleDecline = () => {
     localStorage.setItem('cookie_consent', 'declined');
     setConsent('declined');
+    setWarningVisible(true);
+    setTimeout(() => setWarningVisible(false), 4000); // Show warning for 4 seconds
   };
 
   return (
@@ -32,12 +35,9 @@ const CookieConsent = () => {
         </div>
       )}
 
-      {consent === 'declined' && (
-        <div className="cookie-block-overlay">
-          <div className="cookie-block-message">
-            <h2>Access Denied</h2>
-            <p>You must accept cookies to use this site.</p>
-          </div>
+      {warningVisible && (
+        <div className="cookie-warning-popup">
+          You must accept cookies to use all features.
         </div>
       )}
     </>
