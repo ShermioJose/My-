@@ -105,7 +105,7 @@ function App() {
         userName={userName}
         setUserName={setUserName}
       />
-       <CookieConsent/>
+     
       <Routes>
         <Route
           path="/"
@@ -188,6 +188,7 @@ function App() {
           }}
         />
       )}
+        <CookieConsent/>
     </Router>
   );
 }
