@@ -1,59 +1,63 @@
-import React from 'react';
-import '../styles/Account.css';
+import React, { useEffect, useState } from 'react';
+import '../styles/Account.css'; // Optional CSS styling
 
-const AccountPopup = ({ onClose, userName, onLogout }) => {
- const phone = 'not given';
-  const email = 'not given';
+const Account = ({ userName, onLogout }) => {
+  const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const loggedInEmail = localStorage.getItem('loggedInUser');
+    const foundUser = users.find(u => u.email === loggedInEmail);
+    setUser(foundUser);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('loggedInUser');
+    onLogout();
+    window.location.href = '/';
+  };
+
+  if (!user) {
+    return (
+      <div style={{ padding: '40px', textAlign: 'center' }}>
+        <h2>You are not logged in.</h2>
+      </div>
+    );
+  }
 
   return (
-    <div className="modal-overlay">
-      <div className="auth-popup">
-        <button className="close-btn" onClick={onClose}>✖</button>
+    <div className="account-page" style={{ padding: '40px' }}>
+      <h2>Account Details</h2>
+      <table className="account-info-table">
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <td>{user.firstName} {user.lastName}</td>
+          </tr>
+          <tr>
+            <th>Phone</th>
+            <td>{user.phone}</td>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <td>{user.email}</td>
+          </tr>
+          <tr>
+            <th>Pending</th>
+            <td>0</td>
+          </tr>
+          <tr>
+            <th>Delivered</th>
+            <td>0</td>
+          </tr>
+        </tbody>
+      </table>
 
-        <table className="account-info-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-               <td>{userName}</td>
-              
-            </tr>
-          </thead>
-          <thead>
-            <tr>
-              <th>Phone Number</th>
-               <td>{phone}</td>
-           
-            </tr>
-          </thead>
-          <thead>
-            <tr>
-                 <th>Email</th>
-                   <td>{email}</td>
-         
-            </tr>
-          </thead>
-                <thead>
-            <tr>
-                <th>Pending</th>
-                    <td>0</td>
-         
-            </tr>
-          </thead>
-          <thead>
-            <tr>    
-              <th>Delivered</th>
-              <td>0</td>
-            </tr>
-         </thead>
-         
-        </table>
-        <button className="submit-btn" onClick={onLogout}>
-          Logout
-        </button>
-      </div>
+      <button className="submit-btn" onClick={handleLogout} style={{ marginTop: '20px' }}>
+        Logout
+      </button>
     </div>
   );
 };
 
-export default AccountPopup;
+export default Account;

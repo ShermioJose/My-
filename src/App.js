@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route,} from 'react-router-dom';
 
-import Navbar from './components/Navbar';//hi
+import Navbar from './components/Navbar';
 import CategoryBar from './components/CategoryBar';
 import ImageSlider from './components/ImageSlider';
 import ProductTab from './components/ProductTab';
@@ -15,18 +15,18 @@ import MenPage from './pages/MenPage';
 import WomenPage from './pages/WomenPage';
 import KidsPage from './pages/KidsPage';
 import Footer from './components/Footer';
-import AuthPopup from './pages/AuthPopup'; 
+import AuthPopup from './pages/AuthPopup';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [userName, setUserName] = useState(null);
+  const [userName, setUserName] = useState(localStorage.getItem('loggedInUser'));
   const [cartItems, setCartItems] = useState([]);
   const [productView, setProductView] = useState('all');
   const [authVisible, setAuthVisible] = useState(false);
 
   useEffect(() => {
-
-  }, [cartItems]);
+    localStorage.setItem('loggedInUser', userName || '');
+  }, [userName]);
 
   const addToCart = (product) => {
     if (!userName) {
@@ -36,11 +36,11 @@ function App() {
 
     setCartItems((prevItems) => {
       const existing = prevItems.find(
-        (item) => item.id === product.id && item.size === product.size
+        (item) => item.id === product.id && item.size === product.size && item.color === product.color
       );
       if (existing) {
         return prevItems.map((item) =>
-          item.id === product.id && item.size === product.size
+          item.id === product.id && item.size === product.size && item.color === product.color
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
@@ -54,7 +54,11 @@ function App() {
     setCartItems((prevItems) =>
       prevItems.filter(
         (item) =>
-          !(item.id === productToRemove.id && item.size === productToRemove.size)
+          !(
+            item.id === productToRemove.id &&
+            item.size === productToRemove.size &&
+            item.color === productToRemove.color
+          )
       )
     );
   };
@@ -79,16 +83,14 @@ function App() {
     } else {
       return (
         <Products
-  searchTerm={searchTerm}
-  addToCart={addToCart}
-  cartItems={cartItems}
-  setCartItems={setCartItems}
-  removeFromCart={removeFromCart}
-  userName={userName}         
-  setUserName={setUserName}  
-/>
-
-
+          searchTerm={searchTerm}
+          addToCart={addToCart}
+          cartItems={cartItems}
+          setCartItems={setCartItems}
+          removeFromCart={removeFromCart}
+          userName={userName}
+          setUserName={setUserName}
+        />
       );
     }
   };
@@ -114,53 +116,64 @@ function App() {
             </>
           }
         />
-  <Route
-    path="/men"
-    element={
-      <MenPage
-        searchTerm={searchTerm}
-        addToCart={addToCart}
-        cartItems={cartItems}
-        setCartItems={setCartItems}
-        removeFromCart={removeFromCart}
-        userName={userName}
-      />
-    }
-  />
 
-  <Route
-    path="/women"
-    element={
-      <WomenPage
-        searchTerm={searchTerm}
-        addToCart={addToCart}
-        cartItems={cartItems}
-        setCartItems={setCartItems}
-        removeFromCart={removeFromCart}
-        userName={userName}
-      />
-    }
-  />
+        <Route
+          path="/men"
+          element={
+            <MenPage
+              searchTerm={searchTerm}
+              addToCart={addToCart}
+              cartItems={cartItems}
+              setCartItems={setCartItems}
+              removeFromCart={removeFromCart}
+              userName={userName}
+            />
+          }
+        />
 
-  <Route
-    path="/kids"
-    element={
-      <KidsPage
-        searchTerm={searchTerm}
-        addToCart={addToCart}
-        cartItems={cartItems}
-        setCartItems={setCartItems}
-        removeFromCart={removeFromCart}
-        userName={userName}
-      />
-    }
-  />
+        <Route
+          path="/women"
+          element={
+            <WomenPage
+              searchTerm={searchTerm}
+              addToCart={addToCart}
+              cartItems={cartItems}
+              setCartItems={setCartItems}
+              removeFromCart={removeFromCart}
+              userName={userName}
+            />
+          }
+        />
 
-    
+        <Route
+          path="/kids"
+          element={
+            <KidsPage
+              searchTerm={searchTerm}
+              addToCart={addToCart}
+              cartItems={cartItems}
+              setCartItems={setCartItems}
+              removeFromCart={removeFromCart}
+              userName={userName}
+            />
+          }
+        />
+
         <Route path="/about" element={<About />} />
         <Route path="/location" element={<DeliveryLocation />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/account" element={<Account userName={userName} onLogout={() => setUserName(null)} />} />
+        <Route
+          path="/account"
+          element={
+            <Account
+              userName={userName}
+              onLogout={() => {
+                setUserName(null);
+                localStorage.removeItem('loggedInUser');
+              }}
+            />
+          }
+        />
       </Routes>
 
       <Footer />
@@ -168,7 +181,10 @@ function App() {
       {authVisible && (
         <AuthPopup
           onClose={() => setAuthVisible(false)}
-          setUserName={setUserName}
+          setUserName={(name) => {
+            setUserName(name);
+            setAuthVisible(false);
+          }}
         />
       )}
     </Router>

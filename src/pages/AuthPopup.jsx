@@ -27,6 +27,8 @@ const AuthPopup = ({ onClose, setUserName }) => {
       return;
     }
 
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+
     if (isSignup) {
       if (!isValidPhone(form.phone)) {
         alert('Please enter a valid 10-digit phone number.');
@@ -36,14 +38,32 @@ const AuthPopup = ({ onClose, setUserName }) => {
         alert('Passwords do not match.');
         return;
       }
+      if (users.find(u => u.email === form.email)) {
+        alert('User already exists.');
+        return;
+      }
 
-      alert('Signup successful!');
-      setUserName(form.email);
-      onClose();
+      users.push(form);
+      localStorage.setItem('users', JSON.stringify(users));
+
+      alert('Signup successful! Redirecting to login...');
+      onClose();                         // close popup
+      window.location.href = '/login';   // ✅ go to login page
     } else {
+      const user = users.find(
+        u => u.email === form.email && u.password === form.password
+      );
+
+      if (!user) {
+        alert('Invalid email or password.');
+        return;
+      }
+
+      localStorage.setItem('loggedInUser', user.email);
+      setUserName(user.email);
       alert('Login successful!');
-      setUserName(form.email);
-      onClose();
+      onClose();                        // close popup
+      window.location.href = '/';       // ✅ go to home page
     }
   };
 

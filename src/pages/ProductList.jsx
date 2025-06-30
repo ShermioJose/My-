@@ -12,11 +12,9 @@ const ProductList = ({
   removeFromCart,
   userName,
 }) => {
-  const [selectedSize, setSelectedSize] = useState({});
-  const [selectedColor, setSelectedColor] = useState({});
+  const [selections, setSelections] = useState({});
   const [hoveredProduct, setHoveredProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-
   const [paymentMethod, setPaymentMethod] = useState('credit');
   const [deliveryAddress, setDeliveryAddress] = useState('');
 
@@ -26,10 +24,8 @@ const ProductList = ({
       p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleAddToCart = (product) => {
-    const size = selectedSize[product.id];
-    const color = selectedColor[product.id];
-
+  // ✅ Updated to accept size and color explicitly
+  const handleAddToCart = (product, size, color) => {
     if (!userName) {
       alert('Please log in to add items to the cart.');
       return;
@@ -99,28 +95,17 @@ const ProductList = ({
 
                 {hoveredProduct === p.id && (
                   <>
-                    <div className="size-boxes">
-                      <p>Select Size:</p>
-                      {[6, 7, 8, 9, 10, 11, 12].map(size => (
-                        <button
-                          key={size}
-                          className={`size-box ${selectedSize[p.id] === size ? 'selected' : ''}`}
-                          onClick={() =>
-                            setSelectedSize(prev => ({ ...prev, [p.id]: size }))
-                          }
-                        >
-                          {size}
-                        </button>
-                      ))}
-                    </div>
-
                     <div className="color-dropdown">
                       <label>Select Color:</label>
                       <select
-                        value={selectedColor[p.id] || ''}
-                        onChange={(e) =>
-                          setSelectedColor(prev => ({ ...prev, [p.id]: e.target.value }))
-                        }
+                        value={selections[p.id]?.color || ''}
+                        onChange={(e) => {
+                          const color = e.target.value;
+                          setSelections(prev => ({
+                            ...prev,
+                            [p.id]: { size: undefined, color }
+                          }));
+                        }}
                       >
                         <option value="">--Choose--</option>
                         <option value="Black">Black</option>
@@ -130,9 +115,33 @@ const ProductList = ({
                       </select>
                     </div>
 
-                    <button className="add-to-cart" onClick={() => handleAddToCart(p)}>
-                      🛒 Add to Cart
-                    </button>
+                    <div className="size-boxes">
+                      <p>Select Size:</p>
+                      {[6, 7, 8, 9, 10, 11, 12].map(size => (
+                        <button
+                          key={size}
+                          className={`size-box ${selections[p.id]?.size === size ? 'selected' : ''}`}
+                          onClick={() => {
+                            const color = selections[p.id]?.color;
+                            if (!color) {
+                              alert('Please select a color before choosing a size.');
+                              return;
+                            }
+
+                            // Update selection
+                            setSelections(prev => ({
+                              ...prev,
+                              [p.id]: { ...prev[p.id], size }
+                            }));
+
+                            // ✅ Call with explicit color and size
+                            handleAddToCart(p, size, color);
+                          }}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
                   </>
                 )}
               </div>
@@ -141,7 +150,6 @@ const ProductList = ({
         </div>
       </div>
 
-    
       <div className="cart-sidebar">
         <div className="cart-header">
           <img src={cartIcon} alt="Cart" className="cart-icon-large" />
@@ -174,7 +182,6 @@ const ProductList = ({
           <p className="total-line">Total: <strong>{total.toFixed(2)} QR</strong></p>
         </div>
 
-
         <div className="delivery-info">
           <h4>📦 Delivery Information</h4>
 
@@ -202,6 +209,7 @@ const ProductList = ({
           {cartItems.length >= 2 ? 'Buy All' : 'Buy'}
         </button>
       </div>
+
       {selectedImage && (
         <div className="image-modal" onClick={() => setSelectedImage(null)}>
           <img src={selectedImage} alt="Enlarged" />
