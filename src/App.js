@@ -16,6 +16,7 @@ import WomenPage from './pages/WomenPage';
 import KidsPage from './pages/KidsPage';
 import Footer from './components/Footer';
 import AuthPopup from './pages/AuthPopup';
+import CookieConsent from './pages/CookieConsent';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -104,7 +105,7 @@ function App() {
         userName={userName}
         setUserName={setUserName}
       />
-
+       <CookieConsent/>
       <Routes>
         <Route
           path="/"
