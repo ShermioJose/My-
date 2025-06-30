@@ -24,7 +24,6 @@ const ProductList = ({
       p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // ✅ Updated to accept size and color explicitly
   const handleAddToCart = (product, size, color) => {
     if (!userName) {
       alert('Please log in to add items to the cart.');

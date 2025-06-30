@@ -82,7 +82,7 @@ const productData = [
   { id: 38, name: 'Trendmode', image: shoe38, newPrice: 95, category: 'Kids' },
   { id: 39, name: 'KOBO', image: shoe39, newPrice: 100, category: 'Kids' },
   { id: 40, name: 'HOOH ', image: shoe40, newPrice: 105, category: 'Kids' },
- 
+
 ];
 
 export default productData;
