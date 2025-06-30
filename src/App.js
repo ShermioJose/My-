@@ -9,7 +9,7 @@ import Products from './components/Products';
 import OfferPage from './pages/OfferPage';
 import About from './pages/About';
 import DeliveryLocation from './pages/DeliveryLocation';
-import Signup from './pages/Signup';
+
 import Account from './pages/Account';
 import MenPage from './pages/MenPage';
 import WomenPage from './pages/WomenPage';
@@ -162,7 +162,8 @@ function App() {
 
         <Route path="/about" element={<About />} />
         <Route path="/location" element={<DeliveryLocation />} />
-        <Route path="/signup" element={<Signup />} />
+
+
         <Route
           path="/account"
           element={

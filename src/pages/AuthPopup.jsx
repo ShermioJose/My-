@@ -21,13 +21,12 @@ const AuthPopup = ({ onClose, setUserName }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
 
     if (!isValidEmail(form.email)) {
       alert('Please enter a valid email address.');
       return;
     }
-
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
 
     if (isSignup) {
       if (!isValidPhone(form.phone)) {
@@ -46,9 +45,16 @@ const AuthPopup = ({ onClose, setUserName }) => {
       users.push(form);
       localStorage.setItem('users', JSON.stringify(users));
 
-      alert('Signup successful! Redirecting to login...');
-      onClose();                         // close popup
-      window.location.href = '/login';   // ✅ go to login page
+      alert('Signup successful! You can now login.');
+      setIsSignup(false); // Switch to login mode
+      setForm({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        password: '',
+        confirmPassword: ''
+      });
     } else {
       const user = users.find(
         u => u.email === form.email && u.password === form.password
@@ -62,8 +68,7 @@ const AuthPopup = ({ onClose, setUserName }) => {
       localStorage.setItem('loggedInUser', user.email);
       setUserName(user.email);
       alert('Login successful!');
-      onClose();                        // close popup
-      window.location.href = '/';       // ✅ go to home page
+      onClose(); // close the popup
     }
   };
 
@@ -99,7 +104,6 @@ const AuthPopup = ({ onClose, setUserName }) => {
           {isSignup && (
             <input name="confirmPassword" type="password" placeholder="Confirm Password" value={form.confirmPassword} onChange={handleChange} required />
           )}
-
           <button className="submit-btn" type="submit">{isSignup ? 'Submit' : 'Login'}</button>
         </form>
 
