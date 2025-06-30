@@ -28,7 +28,7 @@ const CookieConsent = () => {
 
   useEffect(() => {
     const handleClick = (e) => {
-      if (declined) {
+      if (declined && !localStorage.getItem('cookie_consent')) {
         e.preventDefault();
         e.stopPropagation();
         setWarningVisible(true);
@@ -36,7 +36,7 @@ const CookieConsent = () => {
       }
     };
 
-    if (declined) {
+    if (declined && !localStorage.getItem('cookie_consent')) {
       document.addEventListener('click', handleClick, true);
     }
 
@@ -61,7 +61,7 @@ const CookieConsent = () => {
 
   return (
     <>
-      {(visible || declined) && (
+      {visible && (
         <div className="cookie-consent-banner">
           <p>This website uses cookies to enhance your experience. Do you accept?</p>
           <div className="cookie-buttons">
